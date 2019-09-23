@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)https://towardsdatascience.com/media/59f8b853ae3bc7e70304178fb173de84 -->
+<html><link type="text/css" id="dark-mode" rel="stylesheet" href="https://towardsdatascience.com/media/59f8b853ae3bc7e70304178fb173de84"><style type="text/css" id="dark-mode-custom-style"></style><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Medium</title><meta name="twitter:widgets:csp" content="on"><meta name="robots" content="noindex"><!--<base target="_blank">--><base href="." target="_blank"><style>body {text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: "ff-tisa-web-pro", Georgia, Cambria, "Times New Roman", Times, serif; font-weight: 400; color: #333332; font-size: 18px; line-height: 1.4; margin: 0; background-color: white; overflow: hidden;}iframe {max-width: 100%;}</style></head><body><style>.gist .gist-file { margin-bottom: 0 !important; }.gist { text-rendering: auto; }</style><script src="./853f0af319f3938754bdd447b8c56302.js" charset="utf-8"></script><link rel="stylesheet" href="./gist-embed-3a7ef482c296bb1a3bcefcbf22eaa3b6.css"><div id="gist94620102" class="gist">
+    <div class="gist-file">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-sentimentanalysis-py" class="file">
+    
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-python ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tbody><tr>
+        <td id="file-sentimentanalysis-py-L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="file-sentimentanalysis-py-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> twitter</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L2" class="blob-num js-line-number" data-line-number="2"></td>
+        <td id="file-sentimentanalysis-py-LC2" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L3" class="blob-num js-line-number" data-line-number="3"></td>
+        <td id="file-sentimentanalysis-py-LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> initialize api instance</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L4" class="blob-num js-line-number" data-line-number="4"></td>
+        <td id="file-sentimentanalysis-py-LC4" class="blob-code blob-code-inner js-file-line">twitter_api <span class="pl-k">=</span> twitter.Api(<span class="pl-v">consumer_key</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>YOUR_CONSUMER_KEY<span class="pl-pds">'</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L5" class="blob-num js-line-number" data-line-number="5"></td>
+        <td id="file-sentimentanalysis-py-LC5" class="blob-code blob-code-inner js-file-line">                        <span class="pl-v">consumer_secret</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>YOUR_CONSUMER_SECRET<span class="pl-pds">'</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L6" class="blob-num js-line-number" data-line-number="6"></td>
+        <td id="file-sentimentanalysis-py-LC6" class="blob-code blob-code-inner js-file-line">                        <span class="pl-v">access_token_key</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>YOUR_ACCESS_TOKEN_KEY<span class="pl-pds">'</span></span>,</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L7" class="blob-num js-line-number" data-line-number="7"></td>
+        <td id="file-sentimentanalysis-py-LC7" class="blob-code blob-code-inner js-file-line">                        <span class="pl-v">access_token_secret</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>YOUR_ACCESS_TOKEN_SECRET<span class="pl-pds">'</span></span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L8" class="blob-num js-line-number" data-line-number="8"></td>
+        <td id="file-sentimentanalysis-py-LC8" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="file-sentimentanalysis-py-LC9" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> test authentication</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="file-sentimentanalysis-py-LC10" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">print</span>(twitter_api.VerifyCredentials())</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="file-sentimentanalysis-py-LC11" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="file-sentimentanalysis-py-LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="file-sentimentanalysis-py-LC13" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="file-sentimentanalysis-py-LC14" class="blob-code blob-code-inner js-file-line"><span class="pl-k">def</span> <span class="pl-en">buildTestSet</span>(<span class="pl-smi">search_keyword</span>):</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L15" class="blob-num js-line-number" data-line-number="15"></td>
+        <td id="file-sentimentanalysis-py-LC15" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">try</span>:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L16" class="blob-num js-line-number" data-line-number="16"></td>
+        <td id="file-sentimentanalysis-py-LC16" class="blob-code blob-code-inner js-file-line">        tweets_fetched <span class="pl-k">=</span> twitter_api.GetSearch(search_keyword, <span class="pl-v">count</span><span class="pl-k">=</span><span class="pl-c1">100</span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L17" class="blob-num js-line-number" data-line-number="17"></td>
+        <td id="file-sentimentanalysis-py-LC17" class="blob-code blob-code-inner js-file-line">        </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L18" class="blob-num js-line-number" data-line-number="18"></td>
+        <td id="file-sentimentanalysis-py-LC18" class="blob-code blob-code-inner js-file-line">        <span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Fetched <span class="pl-pds">"</span></span> <span class="pl-k">+</span> <span class="pl-c1">str</span>(<span class="pl-c1">len</span>(tweets_fetched)) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> tweets for the term <span class="pl-pds">"</span></span> <span class="pl-k">+</span> search_keyword)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L19" class="blob-num js-line-number" data-line-number="19"></td>
+        <td id="file-sentimentanalysis-py-LC19" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L20" class="blob-num js-line-number" data-line-number="20"></td>
+        <td id="file-sentimentanalysis-py-LC20" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">return</span> [{<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>:status.text, <span class="pl-s"><span class="pl-pds">"</span>label<span class="pl-pds">"</span></span>:<span class="pl-c1">None</span>} <span class="pl-k">for</span> status <span class="pl-k">in</span> tweets_fetched]</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L21" class="blob-num js-line-number" data-line-number="21"></td>
+        <td id="file-sentimentanalysis-py-LC21" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">except</span>:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L22" class="blob-num js-line-number" data-line-number="22"></td>
+        <td id="file-sentimentanalysis-py-LC22" class="blob-code blob-code-inner js-file-line">        <span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Unfortunately, something went wrong..<span class="pl-pds">"</span></span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L23" class="blob-num js-line-number" data-line-number="23"></td>
+        <td id="file-sentimentanalysis-py-LC23" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">return</span> <span class="pl-c1">None</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L24" class="blob-num js-line-number" data-line-number="24"></td>
+        <td id="file-sentimentanalysis-py-LC24" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L25" class="blob-num js-line-number" data-line-number="25"></td>
+        <td id="file-sentimentanalysis-py-LC25" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="file-sentimentanalysis-py-LC26" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="file-sentimentanalysis-py-LC27" class="blob-code blob-code-inner js-file-line">search_term <span class="pl-k">=</span> <span class="pl-c1">input</span>(<span class="pl-s"><span class="pl-pds">"</span>Enter a search keyword: <span class="pl-pds">"</span></span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="file-sentimentanalysis-py-LC28" class="blob-code blob-code-inner js-file-line">testDataSet <span class="pl-k">=</span> buildTestSet(search_term)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="file-sentimentanalysis-py-LC29" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L30" class="blob-num js-line-number" data-line-number="30"></td>
+        <td id="file-sentimentanalysis-py-LC30" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">print</span>(testDataSet[<span class="pl-c1">0</span>:<span class="pl-c1">4</span>])</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L31" class="blob-num js-line-number" data-line-number="31"></td>
+        <td id="file-sentimentanalysis-py-LC31" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L32" class="blob-num js-line-number" data-line-number="32"></td>
+        <td id="file-sentimentanalysis-py-LC32" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L33" class="blob-num js-line-number" data-line-number="33"></td>
+        <td id="file-sentimentanalysis-py-LC33" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L34" class="blob-num js-line-number" data-line-number="34"></td>
+        <td id="file-sentimentanalysis-py-LC34" class="blob-code blob-code-inner js-file-line"><span class="pl-k">def</span> <span class="pl-en">buildTrainingSet</span>(<span class="pl-smi">corpusFile</span>, <span class="pl-smi">tweetDataFile</span>):</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L35" class="blob-num js-line-number" data-line-number="35"></td>
+        <td id="file-sentimentanalysis-py-LC35" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">import</span> csv</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L36" class="blob-num js-line-number" data-line-number="36"></td>
+        <td id="file-sentimentanalysis-py-LC36" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">import</span> time </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L37" class="blob-num js-line-number" data-line-number="37"></td>
+        <td id="file-sentimentanalysis-py-LC37" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L38" class="blob-num js-line-number" data-line-number="38"></td>
+        <td id="file-sentimentanalysis-py-LC38" class="blob-code blob-code-inner js-file-line">    corpus<span class="pl-k">=</span>[]</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L39" class="blob-num js-line-number" data-line-number="39"></td>
+        <td id="file-sentimentanalysis-py-LC39" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L40" class="blob-num js-line-number" data-line-number="40"></td>
+        <td id="file-sentimentanalysis-py-LC40" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">with</span> <span class="pl-c1">open</span>(corpusFile,<span class="pl-s"><span class="pl-pds">'</span>rb<span class="pl-pds">'</span></span>) <span class="pl-k">as</span> csvfile:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L41" class="blob-num js-line-number" data-line-number="41"></td>
+        <td id="file-sentimentanalysis-py-LC41" class="blob-code blob-code-inner js-file-line">        lineReader <span class="pl-k">=</span> csv.reader(csvfile, <span class="pl-v">delimiter</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span>, <span class="pl-v">quotechar</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\"</span><span class="pl-pds">"</span></span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L42" class="blob-num js-line-number" data-line-number="42"></td>
+        <td id="file-sentimentanalysis-py-LC42" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">for</span> row <span class="pl-k">in</span> lineReader:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L43" class="blob-num js-line-number" data-line-number="43"></td>
+        <td id="file-sentimentanalysis-py-LC43" class="blob-code blob-code-inner js-file-line">            corpus.append({<span class="pl-s"><span class="pl-pds">"</span>tweet_id<span class="pl-pds">"</span></span>:row[<span class="pl-c1">2</span>], <span class="pl-s"><span class="pl-pds">"</span>label<span class="pl-pds">"</span></span>:row[<span class="pl-c1">1</span>], <span class="pl-s"><span class="pl-pds">"</span>topic<span class="pl-pds">"</span></span>:row[<span class="pl-c1">0</span>]})</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L44" class="blob-num js-line-number" data-line-number="44"></td>
+        <td id="file-sentimentanalysis-py-LC44" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L45" class="blob-num js-line-number" data-line-number="45"></td>
+        <td id="file-sentimentanalysis-py-LC45" class="blob-code blob-code-inner js-file-line">    rate_limit<span class="pl-k">=</span><span class="pl-c1">180</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L46" class="blob-num js-line-number" data-line-number="46"></td>
+        <td id="file-sentimentanalysis-py-LC46" class="blob-code blob-code-inner js-file-line">    sleep_time<span class="pl-k">=</span><span class="pl-c1">900</span><span class="pl-k">/</span><span class="pl-c1">180</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L47" class="blob-num js-line-number" data-line-number="47"></td>
+        <td id="file-sentimentanalysis-py-LC47" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L48" class="blob-num js-line-number" data-line-number="48"></td>
+        <td id="file-sentimentanalysis-py-LC48" class="blob-code blob-code-inner js-file-line">    trainingDataSet<span class="pl-k">=</span>[]</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L49" class="blob-num js-line-number" data-line-number="49"></td>
+        <td id="file-sentimentanalysis-py-LC49" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L50" class="blob-num js-line-number" data-line-number="50"></td>
+        <td id="file-sentimentanalysis-py-LC50" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">for</span> tweet <span class="pl-k">in</span> corpus:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L51" class="blob-num js-line-number" data-line-number="51"></td>
+        <td id="file-sentimentanalysis-py-LC51" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">try</span>:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L52" class="blob-num js-line-number" data-line-number="52"></td>
+        <td id="file-sentimentanalysis-py-LC52" class="blob-code blob-code-inner js-file-line">            status <span class="pl-k">=</span> twitter_api.GetStatus(tweet[<span class="pl-s"><span class="pl-pds">"</span>tweet_id<span class="pl-pds">"</span></span>])</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L53" class="blob-num js-line-number" data-line-number="53"></td>
+        <td id="file-sentimentanalysis-py-LC53" class="blob-code blob-code-inner js-file-line">            <span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Tweet fetched<span class="pl-pds">"</span></span> <span class="pl-k">+</span> status.text)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L54" class="blob-num js-line-number" data-line-number="54"></td>
+        <td id="file-sentimentanalysis-py-LC54" class="blob-code blob-code-inner js-file-line">            tweet[<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> status.text</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L55" class="blob-num js-line-number" data-line-number="55"></td>
+        <td id="file-sentimentanalysis-py-LC55" class="blob-code blob-code-inner js-file-line">            trainingDataSet.append(tweet)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L56" class="blob-num js-line-number" data-line-number="56"></td>
+        <td id="file-sentimentanalysis-py-LC56" class="blob-code blob-code-inner js-file-line">            time.sleep(sleep_time)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L57" class="blob-num js-line-number" data-line-number="57"></td>
+        <td id="file-sentimentanalysis-py-LC57" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">except</span>: </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L58" class="blob-num js-line-number" data-line-number="58"></td>
+        <td id="file-sentimentanalysis-py-LC58" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">continue</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L59" class="blob-num js-line-number" data-line-number="59"></td>
+        <td id="file-sentimentanalysis-py-LC59" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"><span class="pl-c">#</span> Now we write them to the empty CSV file</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L60" class="blob-num js-line-number" data-line-number="60"></td>
+        <td id="file-sentimentanalysis-py-LC60" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">with</span> <span class="pl-c1">open</span>(tweetDataFile,<span class="pl-s"><span class="pl-pds">'</span>wb<span class="pl-pds">'</span></span>) <span class="pl-k">as</span> csvfile:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L61" class="blob-num js-line-number" data-line-number="61"></td>
+        <td id="file-sentimentanalysis-py-LC61" class="blob-code blob-code-inner js-file-line">        linewriter<span class="pl-k">=</span>csv.writer(csvfile,<span class="pl-v">delimiter</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span>,<span class="pl-v">quotechar</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\"</span><span class="pl-pds">"</span></span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L62" class="blob-num js-line-number" data-line-number="62"></td>
+        <td id="file-sentimentanalysis-py-LC62" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">for</span> tweet <span class="pl-k">in</span> trainingDataSet:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L63" class="blob-num js-line-number" data-line-number="63"></td>
+        <td id="file-sentimentanalysis-py-LC63" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">try</span>:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L64" class="blob-num js-line-number" data-line-number="64"></td>
+        <td id="file-sentimentanalysis-py-LC64" class="blob-code blob-code-inner js-file-line">                linewriter.writerow([tweet[<span class="pl-s"><span class="pl-pds">"</span>tweet_id<span class="pl-pds">"</span></span>],tweet[<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>],tweet[<span class="pl-s"><span class="pl-pds">"</span>label<span class="pl-pds">"</span></span>],tweet[<span class="pl-s"><span class="pl-pds">"</span>topic<span class="pl-pds">"</span></span>]])</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L65" class="blob-num js-line-number" data-line-number="65"></td>
+        <td id="file-sentimentanalysis-py-LC65" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">except</span> <span class="pl-c1">Exception</span> <span class="pl-k">as</span> e:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L66" class="blob-num js-line-number" data-line-number="66"></td>
+        <td id="file-sentimentanalysis-py-LC66" class="blob-code blob-code-inner js-file-line">                <span class="pl-c1">print</span>(e)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L67" class="blob-num js-line-number" data-line-number="67"></td>
+        <td id="file-sentimentanalysis-py-LC67" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> trainingDataSet</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L68" class="blob-num js-line-number" data-line-number="68"></td>
+        <td id="file-sentimentanalysis-py-LC68" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L69" class="blob-num js-line-number" data-line-number="69"></td>
+        <td id="file-sentimentanalysis-py-LC69" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L70" class="blob-num js-line-number" data-line-number="70"></td>
+        <td id="file-sentimentanalysis-py-LC70" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L71" class="blob-num js-line-number" data-line-number="71"></td>
+        <td id="file-sentimentanalysis-py-LC71" class="blob-code blob-code-inner js-file-line">corpusFile <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>YOUR_FILE_PATH/corpus.csv<span class="pl-pds">"</span></span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L72" class="blob-num js-line-number" data-line-number="72"></td>
+        <td id="file-sentimentanalysis-py-LC72" class="blob-code blob-code-inner js-file-line">tweetDataFile <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>YOUR_FILE_PATH/tweetDataFile.csv<span class="pl-pds">"</span></span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L73" class="blob-num js-line-number" data-line-number="73"></td>
+        <td id="file-sentimentanalysis-py-LC73" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L74" class="blob-num js-line-number" data-line-number="74"></td>
+        <td id="file-sentimentanalysis-py-LC74" class="blob-code blob-code-inner js-file-line">trainingData <span class="pl-k">=</span> buildTrainingSet(corpusFile, tweetDataFile)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L75" class="blob-num js-line-number" data-line-number="75"></td>
+        <td id="file-sentimentanalysis-py-LC75" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L76" class="blob-num js-line-number" data-line-number="76"></td>
+        <td id="file-sentimentanalysis-py-LC76" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L77" class="blob-num js-line-number" data-line-number="77"></td>
+        <td id="file-sentimentanalysis-py-LC77" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L78" class="blob-num js-line-number" data-line-number="78"></td>
+        <td id="file-sentimentanalysis-py-LC78" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> re</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L79" class="blob-num js-line-number" data-line-number="79"></td>
+        <td id="file-sentimentanalysis-py-LC79" class="blob-code blob-code-inner js-file-line"><span class="pl-k">from</span> nltk.tokenize <span class="pl-k">import</span> word_tokenize</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L80" class="blob-num js-line-number" data-line-number="80"></td>
+        <td id="file-sentimentanalysis-py-LC80" class="blob-code blob-code-inner js-file-line"><span class="pl-k">from</span> string <span class="pl-k">import</span> punctuation </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L81" class="blob-num js-line-number" data-line-number="81"></td>
+        <td id="file-sentimentanalysis-py-LC81" class="blob-code blob-code-inner js-file-line"><span class="pl-k">from</span> nltk.corpus <span class="pl-k">import</span> stopwords </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L82" class="blob-num js-line-number" data-line-number="82"></td>
+        <td id="file-sentimentanalysis-py-LC82" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L83" class="blob-num js-line-number" data-line-number="83"></td>
+        <td id="file-sentimentanalysis-py-LC83" class="blob-code blob-code-inner js-file-line"><span class="pl-k">class</span> <span class="pl-en">PreProcessTweets</span>:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L84" class="blob-num js-line-number" data-line-number="84"></td>
+        <td id="file-sentimentanalysis-py-LC84" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">def</span> <span class="pl-c1">__init__</span>(<span class="pl-smi"><span class="pl-smi">self</span></span>):</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L85" class="blob-num js-line-number" data-line-number="85"></td>
+        <td id="file-sentimentanalysis-py-LC85" class="blob-code blob-code-inner js-file-line">        <span class="pl-c1">self</span>._stopwords <span class="pl-k">=</span> <span class="pl-c1">set</span>(stopwords.words(<span class="pl-s"><span class="pl-pds">'</span>english<span class="pl-pds">'</span></span>) <span class="pl-k">+</span> <span class="pl-c1">list</span>(punctuation) <span class="pl-k">+</span> [<span class="pl-s"><span class="pl-pds">'</span>AT_USER<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>URL<span class="pl-pds">'</span></span>])</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L86" class="blob-num js-line-number" data-line-number="86"></td>
+        <td id="file-sentimentanalysis-py-LC86" class="blob-code blob-code-inner js-file-line">        </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L87" class="blob-num js-line-number" data-line-number="87"></td>
+        <td id="file-sentimentanalysis-py-LC87" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">def</span> <span class="pl-en">processTweets</span>(<span class="pl-smi"><span class="pl-smi">self</span></span>, <span class="pl-smi">list_of_tweets</span>):</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L88" class="blob-num js-line-number" data-line-number="88"></td>
+        <td id="file-sentimentanalysis-py-LC88" class="blob-code blob-code-inner js-file-line">        processedTweets<span class="pl-k">=</span>[]</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L89" class="blob-num js-line-number" data-line-number="89"></td>
+        <td id="file-sentimentanalysis-py-LC89" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">for</span> tweet <span class="pl-k">in</span> list_of_tweets:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L90" class="blob-num js-line-number" data-line-number="90"></td>
+        <td id="file-sentimentanalysis-py-LC90" class="blob-code blob-code-inner js-file-line">            processedTweets.append((<span class="pl-c1">self</span>._processTweet(tweet[<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>]),tweet[<span class="pl-s"><span class="pl-pds">"</span>label<span class="pl-pds">"</span></span>]))</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L91" class="blob-num js-line-number" data-line-number="91"></td>
+        <td id="file-sentimentanalysis-py-LC91" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">return</span> processedTweets</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L92" class="blob-num js-line-number" data-line-number="92"></td>
+        <td id="file-sentimentanalysis-py-LC92" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L93" class="blob-num js-line-number" data-line-number="93"></td>
+        <td id="file-sentimentanalysis-py-LC93" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">def</span> <span class="pl-en">_processTweet</span>(<span class="pl-smi"><span class="pl-smi">self</span></span>, <span class="pl-smi">tweet</span>):</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L94" class="blob-num js-line-number" data-line-number="94"></td>
+        <td id="file-sentimentanalysis-py-LC94" class="blob-code blob-code-inner js-file-line">        tweet <span class="pl-k">=</span> tweet.lower() <span class="pl-c"><span class="pl-c">#</span> convert text to lower-case</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L95" class="blob-num js-line-number" data-line-number="95"></td>
+        <td id="file-sentimentanalysis-py-LC95" class="blob-code blob-code-inner js-file-line">        tweet <span class="pl-k">=</span> re.sub(<span class="pl-s"><span class="pl-pds">'</span>((www\.[^\s]+)|(https?://[^\s]+))<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>URL<span class="pl-pds">'</span></span>, tweet) <span class="pl-c"><span class="pl-c">#</span> remove URLs</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L96" class="blob-num js-line-number" data-line-number="96"></td>
+        <td id="file-sentimentanalysis-py-LC96" class="blob-code blob-code-inner js-file-line">        tweet <span class="pl-k">=</span> re.sub(<span class="pl-s"><span class="pl-pds">'</span>@[^\s]+<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>AT_USER<span class="pl-pds">'</span></span>, tweet) <span class="pl-c"><span class="pl-c">#</span> remove usernames</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L97" class="blob-num js-line-number" data-line-number="97"></td>
+        <td id="file-sentimentanalysis-py-LC97" class="blob-code blob-code-inner js-file-line">        tweet <span class="pl-k">=</span> re.sub(<span class="pl-sr"><span class="pl-k">r</span><span class="pl-pds">'</span>#<span class="pl-c1">(</span>[<span class="pl-k">^</span><span class="pl-c1">\s</span>]<span class="pl-k">+</span><span class="pl-c1">)</span><span class="pl-pds">'</span></span>, <span class="pl-sr"><span class="pl-k">r</span><span class="pl-pds">'</span><span class="pl-ent">\1</span><span class="pl-pds">'</span></span>, tweet) <span class="pl-c"><span class="pl-c">#</span> remove the # in #hashtag</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L98" class="blob-num js-line-number" data-line-number="98"></td>
+        <td id="file-sentimentanalysis-py-LC98" class="blob-code blob-code-inner js-file-line">        tweet <span class="pl-k">=</span> word_tokenize(tweet) <span class="pl-c"><span class="pl-c">#</span> remove repeated characters (helloooooooo into hello)</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L99" class="blob-num js-line-number" data-line-number="99"></td>
+        <td id="file-sentimentanalysis-py-LC99" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">return</span> [word <span class="pl-k">for</span> word <span class="pl-k">in</span> tweet <span class="pl-k">if</span> word <span class="pl-k">not</span> <span class="pl-k">in</span> <span class="pl-c1">self</span>._stopwords]</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L100" class="blob-num js-line-number" data-line-number="100"></td>
+        <td id="file-sentimentanalysis-py-LC100" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L101" class="blob-num js-line-number" data-line-number="101"></td>
+        <td id="file-sentimentanalysis-py-LC101" class="blob-code blob-code-inner js-file-line">tweetProcessor <span class="pl-k">=</span> PreProcessTweets()</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L102" class="blob-num js-line-number" data-line-number="102"></td>
+        <td id="file-sentimentanalysis-py-LC102" class="blob-code blob-code-inner js-file-line">preprocessedTrainingSet <span class="pl-k">=</span> tweetProcessor.processTweets(trainingData)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L103" class="blob-num js-line-number" data-line-number="103"></td>
+        <td id="file-sentimentanalysis-py-LC103" class="blob-code blob-code-inner js-file-line">preprocessedTestSet <span class="pl-k">=</span> tweetProcessor.processTweets(testDataSet)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L104" class="blob-num js-line-number" data-line-number="104"></td>
+        <td id="file-sentimentanalysis-py-LC104" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L105" class="blob-num js-line-number" data-line-number="105"></td>
+        <td id="file-sentimentanalysis-py-LC105" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L106" class="blob-num js-line-number" data-line-number="106"></td>
+        <td id="file-sentimentanalysis-py-LC106" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L107" class="blob-num js-line-number" data-line-number="107"></td>
+        <td id="file-sentimentanalysis-py-LC107" class="blob-code blob-code-inner js-file-line"><span class="pl-k">import</span> nltk </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L108" class="blob-num js-line-number" data-line-number="108"></td>
+        <td id="file-sentimentanalysis-py-LC108" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L109" class="blob-num js-line-number" data-line-number="109"></td>
+        <td id="file-sentimentanalysis-py-LC109" class="blob-code blob-code-inner js-file-line"><span class="pl-k">def</span> <span class="pl-en">buildVocabulary</span>(<span class="pl-smi">preprocessedTrainingData</span>):</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L110" class="blob-num js-line-number" data-line-number="110"></td>
+        <td id="file-sentimentanalysis-py-LC110" class="blob-code blob-code-inner js-file-line">    all_words <span class="pl-k">=</span> []</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L111" class="blob-num js-line-number" data-line-number="111"></td>
+        <td id="file-sentimentanalysis-py-LC111" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L112" class="blob-num js-line-number" data-line-number="112"></td>
+        <td id="file-sentimentanalysis-py-LC112" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">for</span> (words, sentiment) <span class="pl-k">in</span> preprocessedTrainingData:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L113" class="blob-num js-line-number" data-line-number="113"></td>
+        <td id="file-sentimentanalysis-py-LC113" class="blob-code blob-code-inner js-file-line">        all_words.extend(words)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L114" class="blob-num js-line-number" data-line-number="114"></td>
+        <td id="file-sentimentanalysis-py-LC114" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L115" class="blob-num js-line-number" data-line-number="115"></td>
+        <td id="file-sentimentanalysis-py-LC115" class="blob-code blob-code-inner js-file-line">    wordlist <span class="pl-k">=</span> nltk.FreqDist(all_words)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L116" class="blob-num js-line-number" data-line-number="116"></td>
+        <td id="file-sentimentanalysis-py-LC116" class="blob-code blob-code-inner js-file-line">    word_features <span class="pl-k">=</span> wordlist.keys()</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L117" class="blob-num js-line-number" data-line-number="117"></td>
+        <td id="file-sentimentanalysis-py-LC117" class="blob-code blob-code-inner js-file-line">    </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L118" class="blob-num js-line-number" data-line-number="118"></td>
+        <td id="file-sentimentanalysis-py-LC118" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> word_features</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L119" class="blob-num js-line-number" data-line-number="119"></td>
+        <td id="file-sentimentanalysis-py-LC119" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L120" class="blob-num js-line-number" data-line-number="120"></td>
+        <td id="file-sentimentanalysis-py-LC120" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L121" class="blob-num js-line-number" data-line-number="121"></td>
+        <td id="file-sentimentanalysis-py-LC121" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L122" class="blob-num js-line-number" data-line-number="122"></td>
+        <td id="file-sentimentanalysis-py-LC122" class="blob-code blob-code-inner js-file-line"><span class="pl-k">def</span> <span class="pl-en">extract_features</span>(<span class="pl-smi">tweet</span>):</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L123" class="blob-num js-line-number" data-line-number="123"></td>
+        <td id="file-sentimentanalysis-py-LC123" class="blob-code blob-code-inner js-file-line">    tweet_words<span class="pl-k">=</span><span class="pl-c1">set</span>(tweet)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L124" class="blob-num js-line-number" data-line-number="124"></td>
+        <td id="file-sentimentanalysis-py-LC124" class="blob-code blob-code-inner js-file-line">    features<span class="pl-k">=</span>{}</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L125" class="blob-num js-line-number" data-line-number="125"></td>
+        <td id="file-sentimentanalysis-py-LC125" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">for</span> word <span class="pl-k">in</span> word_features:</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L126" class="blob-num js-line-number" data-line-number="126"></td>
+        <td id="file-sentimentanalysis-py-LC126" class="blob-code blob-code-inner js-file-line">        features[<span class="pl-s"><span class="pl-pds">'</span>contains(<span class="pl-c1">%s</span>)<span class="pl-pds">'</span></span> <span class="pl-k">%</span> word]<span class="pl-k">=</span>(word <span class="pl-k">in</span> tweet_words)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L127" class="blob-num js-line-number" data-line-number="127"></td>
+        <td id="file-sentimentanalysis-py-LC127" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> features </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L128" class="blob-num js-line-number" data-line-number="128"></td>
+        <td id="file-sentimentanalysis-py-LC128" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L129" class="blob-num js-line-number" data-line-number="129"></td>
+        <td id="file-sentimentanalysis-py-LC129" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L130" class="blob-num js-line-number" data-line-number="130"></td>
+        <td id="file-sentimentanalysis-py-LC130" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L131" class="blob-num js-line-number" data-line-number="131"></td>
+        <td id="file-sentimentanalysis-py-LC131" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> Now we can extract the features and train the classifier </span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L132" class="blob-num js-line-number" data-line-number="132"></td>
+        <td id="file-sentimentanalysis-py-LC132" class="blob-code blob-code-inner js-file-line">word_features <span class="pl-k">=</span> buildVocabulary(preprocessedTrainingSet)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L133" class="blob-num js-line-number" data-line-number="133"></td>
+        <td id="file-sentimentanalysis-py-LC133" class="blob-code blob-code-inner js-file-line">trainingFeatures<span class="pl-k">=</span>nltk.classify.apply_features(extract_features,preprocessedTrainingSet)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L134" class="blob-num js-line-number" data-line-number="134"></td>
+        <td id="file-sentimentanalysis-py-LC134" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L135" class="blob-num js-line-number" data-line-number="135"></td>
+        <td id="file-sentimentanalysis-py-LC135" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L136" class="blob-num js-line-number" data-line-number="136"></td>
+        <td id="file-sentimentanalysis-py-LC136" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L137" class="blob-num js-line-number" data-line-number="137"></td>
+        <td id="file-sentimentanalysis-py-LC137" class="blob-code blob-code-inner js-file-line">NBayesClassifier<span class="pl-k">=</span>nltk.NaiveBayesClassifier.train(trainingFeatures)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L138" class="blob-num js-line-number" data-line-number="138"></td>
+        <td id="file-sentimentanalysis-py-LC138" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L139" class="blob-num js-line-number" data-line-number="139"></td>
+        <td id="file-sentimentanalysis-py-LC139" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L140" class="blob-num js-line-number" data-line-number="140"></td>
+        <td id="file-sentimentanalysis-py-LC140" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L141" class="blob-num js-line-number" data-line-number="141"></td>
+        <td id="file-sentimentanalysis-py-LC141" class="blob-code blob-code-inner js-file-line">NBResultLabels <span class="pl-k">=</span> [NBayesClassifier.classify(extract_features(tweet[<span class="pl-c1">0</span>])) <span class="pl-k">for</span> tweet <span class="pl-k">in</span> preprocessedTestSet]</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L142" class="blob-num js-line-number" data-line-number="142"></td>
+        <td id="file-sentimentanalysis-py-LC142" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L143" class="blob-num js-line-number" data-line-number="143"></td>
+        <td id="file-sentimentanalysis-py-LC143" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> ------------------------------------------------------------------------</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L144" class="blob-num js-line-number" data-line-number="144"></td>
+        <td id="file-sentimentanalysis-py-LC144" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L145" class="blob-num js-line-number" data-line-number="145"></td>
+        <td id="file-sentimentanalysis-py-LC145" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">#</span> get the majority vote</span></td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L146" class="blob-num js-line-number" data-line-number="146"></td>
+        <td id="file-sentimentanalysis-py-LC146" class="blob-code blob-code-inner js-file-line"><span class="pl-k">if</span> NBResultLabels.count(<span class="pl-s"><span class="pl-pds">'</span>positive<span class="pl-pds">'</span></span>) <span class="pl-k">&gt;</span> NBResultLabels.count(<span class="pl-s"><span class="pl-pds">'</span>negative<span class="pl-pds">'</span></span>):</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L147" class="blob-num js-line-number" data-line-number="147"></td>
+        <td id="file-sentimentanalysis-py-LC147" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Overall Positive Sentiment<span class="pl-pds">"</span></span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L148" class="blob-num js-line-number" data-line-number="148"></td>
+        <td id="file-sentimentanalysis-py-LC148" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Positive Sentiment Percentage = <span class="pl-pds">"</span></span> <span class="pl-k">+</span> <span class="pl-c1">str</span>(<span class="pl-c1">100</span><span class="pl-k">*</span>NBResultLabels.count(<span class="pl-s"><span class="pl-pds">'</span>positive<span class="pl-pds">'</span></span>)<span class="pl-k">/</span><span class="pl-c1">len</span>(NBResultLabels)) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>%<span class="pl-pds">"</span></span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L149" class="blob-num js-line-number" data-line-number="149"></td>
+        <td id="file-sentimentanalysis-py-LC149" class="blob-code blob-code-inner js-file-line"><span class="pl-k">else</span>: </td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L150" class="blob-num js-line-number" data-line-number="150"></td>
+        <td id="file-sentimentanalysis-py-LC150" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Overall Negative Sentiment<span class="pl-pds">"</span></span>)</td>
+      </tr>
+      <tr>
+        <td id="file-sentimentanalysis-py-L151" class="blob-num js-line-number" data-line-number="151"></td>
+        <td id="file-sentimentanalysis-py-LC151" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Negative Sentiment Percentage = <span class="pl-pds">"</span></span> <span class="pl-k">+</span> <span class="pl-c1">str</span>(<span class="pl-c1">100</span><span class="pl-k">*</span>NBResultLabels.count(<span class="pl-s"><span class="pl-pds">'</span>negative<span class="pl-pds">'</span></span>)<span class="pl-k">/</span><span class="pl-c1">len</span>(NBResultLabels)) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>%<span class="pl-pds">"</span></span>)</td>
+      </tr>
+</tbody></table>
+
+
+  </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/AnasAlmasri/853f0af319f3938754bdd447b8c56302/raw/7aef23f5f202b65d7e13ffc77e6c589248753e37/SentimentAnalysis.py" style="float:right">view raw</a>
+        <a href="https://gist.github.com/AnasAlmasri/853f0af319f3938754bdd447b8c56302#file-sentimentanalysis-py">SentimentAnalysis.py</a>
+        hosted with ❤ by <a href="https://github.com/">GitHub</a>
+      </div>
+    </div>
+</div>
+<script>var height = -1; var delayMs = 200; if (document) {document.domain = document.domain;}function notifyResize(height) {height = height ? height : document.documentElement.offsetHeight; var resized = false; if (window.donkey && donkey.resize) {donkey.resize(height);var elements = document.getElementsByClassName("gist-data"); for (var i = 0; i < elements.length; i++) {elements[i].style.overflow = "visible"}resized = true;}if (parent && parent._resizeIframe) {var obj = {iframe: window.frameElement, height: height}; parent._resizeIframe(obj); resized = true;}if (window.location && window.location.hash === "#amp=1" && window.parent && window.parent.postMessage) {window.parent.postMessage({sentinel: "amp", type: "embed-size", height: height}, "*");}if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.resize) {window.webkit.messageHandlers.resize.postMessage(height); resized = true;}return resized;}function maybeResize() {try {if (document.documentElement.offsetHeight != height && notifyResize()) {height = document.documentElement.offsetHeight;}delayMs = Math.min(delayMs * 2, 1000000); setTimeout(maybeResize, delayMs);} catch(error) {console.log('maybeResize error: ', error)}}maybeResize();</script></body></html>

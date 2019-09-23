@@ -1,0 +1,43 @@
+/* Add here all your css styles (customizations) */
+
+.g-color-nlporange {
+  color: #D38145 !important; }
+
+.g-brd-nlporange {
+  border-color: #D38145 !important; }
+
+.g-color-nlpblue {
+  color: #43505c !important; }
+
+.g-brd-nlpblue {
+  border-color: #43505c !important; }
+
+/* Color Dark Red */
+.g-brd-nlporange-top {
+  border-top-color: #D38145 !important; }
+
+.blog {
+  font-size: 1.07143rem !important; }
+
+.center {
+  position: center;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.sticky {
+  position: -webkit-sticky; 
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.img_mobile {
+  margin:auto;
+  width: 100%; 
+  height: auto;
+}

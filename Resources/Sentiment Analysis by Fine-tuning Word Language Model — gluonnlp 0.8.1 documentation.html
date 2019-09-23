@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="gr__gluon-nlp_mxnet_io mdl-js"><link type="text/css" id="dark-mode" rel="stylesheet" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html"><style type="text/css" id="dark-mode-custom-style"></style><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    
+    <title>Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation</title>
+
+    <link rel="stylesheet" href="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/basic.css" type="text/css">
+    <link rel="stylesheet" href="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/pygments.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/gallery.css">
+    <link rel="stylesheet" href="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/material.blue-deep_orange.min.css" type="text/css">
+    <link rel="stylesheet" href="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/sphinx_materialdesign_theme.css" type="text/css">
+    <link rel="stylesheet" href="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/all.css" type="text/css">
+    <link rel="stylesheet" href="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/fonts.css" type="text/css">
+    <script async="" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/analytics.js"></script><script type="text/javascript" id="documentation_options" data-url_root="../../" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/documentation_options.js"></script>
+    <script type="text/javascript" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/jquery.js"></script>
+    <script type="text/javascript" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/underscore.js"></script>
+    <script type="text/javascript" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/doctools.js"></script>
+    <script type="text/javascript" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/language_data.js"></script>
+    <script type="text/javascript" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/google_analytics.js"></script>
+    <script async="async" type="text/javascript" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/latest.js"></script>
+    <link rel="shortcut icon" href="https://gluon-nlp.mxnet.io/_static/gluon.ico">
+    <link rel="index" title="Index" href="https://gluon-nlp.mxnet.io/genindex.html">
+    <link rel="search" title="Search" href="https://gluon-nlp.mxnet.io/search.html">
+    <link rel="next" title="Sequence Generation with Sampling and Beam Search" href="https://gluon-nlp.mxnet.io/examples/sequence_sampling/sequence_sampling.html">
+    <link rel="prev" title="Fine-tuning Sentence Pair Classification with BERT" href="https://gluon-nlp.mxnet.io/examples/sentence_embedding/bert.html"> 
+  <script type="text/javascript" async="" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > *, .MJXp-munder > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax:focus, body :focus .MathJax {display: inline-table}
+.MathJax.MathJax_FullWidth {text-align: center; display: table-cell!important; width: 10000em!important}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none; box-sizing: content-box}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_test {font-style: normal; font-weight: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow: hidden; height: 1px}
+.MathJax_test.mjx-test-display {display: table!important}
+.MathJax_test.mjx-test-inline {display: inline!important; margin-right: -1px}
+.MathJax_test.mjx-test-default {display: block!important; clear: both}
+.MathJax_ex_box {display: inline-block!important; position: absolute; overflow: hidden; min-height: 0; max-height: none; padding: 0; border: 0; margin: 0; width: 1px; height: 60ex}
+.MathJax_em_box {display: inline-block!important; position: absolute; overflow: hidden; min-height: 0; max-height: none; padding: 0; border: 0; margin: 0; width: 1px; height: 60em}
+.mjx-test-inline .MathJax_left_box {display: inline-block; width: 0; float: left}
+.mjx-test-inline .MathJax_right_box {display: inline-block; width: 0; float: right}
+.mjx-test-display .MathJax_right_box {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Blank; src: url('about:blank')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body data-gr-c-s-loaded="true" style="display: block;"><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+    <div class="mdl-layout__container"><div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer has-drawer is-upgraded" data-upgraded=",MaterialLayout"><header class="mdl-layout__header mdl-layout__header--waterfall mdl-layout__header--scroll"><div aria-expanded="false" role="button" tabindex="0" class="mdl-layout__drawer-button"><i class="material-icons"></i></div>
+    <div class="mdl-layout__header-row">
+        
+        <nav class="mdl-navigation breadcrumb">
+            <a class="mdl-navigation__link" href="https://gluon-nlp.mxnet.io/examples/index.html">Tutorials</a><i class="material-icons">navigate_next</i>
+            <a class="mdl-navigation__link is-active">Sentiment Analysis by Fine-tuning Word Language Model</a>
+        </nav>
+        <div class="mdl-layout-spacer"></div>
+        <nav class="mdl-navigation">
+        
+<form class="form-inline pull-sm-right" action="https://gluon-nlp.mxnet.io/search.html" method="get">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right has-placeholder is-upgraded" data-upgraded=",MaterialTextfield">
+        <label id="quick-search-icon" class="mdl-button mdl-js-button mdl-button--icon" for="waterfall-exp" data-upgraded=",MaterialButton" tabindex="0">
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" name="q" id="waterfall-exp" placeholder="Search">
+          <input type="hidden" name="check_keywords" value="yes">
+          <input type="hidden" name="area" value="default">
+        </div>
+      </div>
+      <div class="mdl-tooltip" data-mdl-for="quick-search-icon" data-upgraded=",MaterialTooltip">
+      Quick search
+      </div>
+</form>
+        
+<a id="button-show-github" href="https://github.com/dmlc/gluon-nlp/edit/master/docs/examples/sentiment_analysis/sentiment_analysis.md" class="mdl-button mdl-js-button mdl-button--icon" data-upgraded=",MaterialButton" tabindex="0">
+<i class="material-icons">edit</i>
+</a>
+<div class="mdl-tooltip" data-mdl-for="button-show-github" data-upgraded=",MaterialTooltip">
+Edit on Github
+</div>
+        </nav>
+    </div>
+    <div class="mdl-layout__header-row header-links">
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="https://gluon-nlp.mxnet.io/install.html">
+                  
+                  Install
+              </a>
+          <a class="mdl-navigation__link" href="https://gluon-nlp.mxnet.io/api/index.html">
+                  
+                  API
+              </a>
+          <a class="mdl-navigation__link" href="https://gluon-nlp.mxnet.io/community/index.html">
+                  
+                  Community
+              </a>
+          <a class="mdl-navigation__link" href="https://gluon-nlp.mxnet.io/community/contribute.html">
+                  
+                  Contribute
+              </a>
+          
+              <a class="mdl-navigation__link" href="https://github.com/dmlc/gluon-nlp/">
+                  <i class="fab fa-github"></i>
+                  GitHub
+              </a>
+      </nav>
+    </div>
+</header><header class="mdl-layout__drawer" aria-hidden="true">
+    
+          <!-- Title -->
+      <span class="mdl-layout-title">
+          <a class="title" href="https://gluon-nlp.mxnet.io/index.html">
+              <img class="logo" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/gluon-logo.svg" alt="gluonnlp">
+          </a>
+      </span>
+    
+    
+      <div class="globaltoc">
+        <span class="mdl-layout-title toc">Table Of Contents</span>
+        
+        
+            
+            <nav class="mdl-navigation">
+                <ul class="current">
+<li class="toctree-l1">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/index.html">Model Zoo</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-0" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-0" class="collapse" style="display: none;">
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/word_embeddings/index.html">Word Embedding</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/language_model/index.html">Language Model</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/machine_translation/index.html">Machine Translation</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/text_classification/index.html">Text Classification</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/sentiment_analysis/index.html">Sentiment Analysis</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/natural_language_inference/index.html">Natural Language Inference</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/text_generation/index.html">Text Generation</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/parsing/index.html">Dependency Parsing</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/bert/index.html">Bidirectional Encoder Representations from Transformers</a></span></li>
+</ul></li>
+<li class="toctree-l1 current">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/index.html">Tutorials</a><span class="nav-toggle show"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-10" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul class="current collapse show" id="globalnav-10">
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/word_embedding/word_embedding.html">Pre-trained Word Embeddings</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/word_embedding/word_embedding_training.html">Word Embeddings Training and Evaluation</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/language_model/language_model.html">LSTM-based Language Models</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/machine_translation/gnmt.html">Google Neural Machine Translation (GNMT)</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/machine_translation/transformer.html">Machine Translation with Transformers</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentence_embedding/elmo_sentence_representation.html">Extract Sentence Features with Pre-trained ELMo</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentence_embedding/self_attentive_sentence_embedding.html">A Structured Self-attentive Sentence Embedding</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentence_embedding/bert.html">Fine-tuning Sentence Pair Classification with BERT</a></span></li>
+<li class="toctree-l2 current"><span class="link-wrapper"><a class="current reference internal mdl-color-text--primary" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#">Sentiment Analysis by Fine-tuning Word Language Model</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sequence_sampling/sequence_sampling.html">Sequence Generation with Sampling and Beam Search</a></span></li>
+</ul></li>
+<li class="toctree-l1">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/index.html">API Documentation</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-21" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-21" class="collapse" style="display: none;">
+<li class="toctree-l2">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/notes/index.html">Notes</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-22" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-22" class="collapse" style="display: none;">
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/notes/data_api.html">Data Loading API</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/notes/vocab_emb.html">Vocabulary and Embedding API</a></span></li>
+</ul></li>
+<li class="toctree-l2">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/index.html">Package Reference</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-25" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-25" class="collapse" style="display: none;">
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/vocab.html">gluonnlp.vocab</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/embedding.html">gluonnlp.embedding</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/data.html">gluonnlp.data</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/data.batchify.html">gluonnlp.data.batchify</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/model.html">gluonnlp.model</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/model.train.html">gluonnlp.model.train</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/loss.html">gluonnlp.loss</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/initializer.html">gluonnlp.initializer</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/optimizer.html">gluonnlp.optimizer</a></span></li>
+</ul></li>
+</ul></li>
+<li class="toctree-l1">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/community/index.html">Community</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-35" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-35" class="collapse" style="display: none;">
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/community/contribute.html">Contribute</a></span></li>
+</ul></li>
+<li class="toctree-l1"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/genindex.html">Index</a></span></li>
+</ul>
+
+            </nav>
+        
+        </div>
+    
+</header>
+        <main class="mdl-layout__content" tabindex="0">
+
+	<script type="text/javascript" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/sphinx_materialdesign_theme.js"></script>
+    <header class="mdl-layout__drawer">
+    
+          <!-- Title -->
+      <span class="mdl-layout-title">
+          <a class="title" href="https://gluon-nlp.mxnet.io/index.html">
+              <img class="logo" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/gluon-logo.svg" alt="gluonnlp">
+          </a>
+      </span>
+    
+    
+      <div class="globaltoc">
+        <span class="mdl-layout-title toc">Table Of Contents</span>
+        
+        
+            
+            <nav class="mdl-navigation">
+                <ul class="current">
+<li class="toctree-l1">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/index.html">Model Zoo</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-38" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-38" class="collapse" style="display: none;">
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/word_embeddings/index.html">Word Embedding</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/language_model/index.html">Language Model</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/machine_translation/index.html">Machine Translation</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/text_classification/index.html">Text Classification</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/sentiment_analysis/index.html">Sentiment Analysis</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/natural_language_inference/index.html">Natural Language Inference</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/text_generation/index.html">Text Generation</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/parsing/index.html">Dependency Parsing</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/model_zoo/bert/index.html">Bidirectional Encoder Representations from Transformers</a></span></li>
+</ul></li>
+<li class="toctree-l1 current">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/index.html">Tutorials</a><span class="nav-toggle show"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-48" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul class="current collapse show" id="globalnav-48">
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/word_embedding/word_embedding.html">Pre-trained Word Embeddings</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/word_embedding/word_embedding_training.html">Word Embeddings Training and Evaluation</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/language_model/language_model.html">LSTM-based Language Models</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/machine_translation/gnmt.html">Google Neural Machine Translation (GNMT)</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/machine_translation/transformer.html">Machine Translation with Transformers</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentence_embedding/elmo_sentence_representation.html">Extract Sentence Features with Pre-trained ELMo</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentence_embedding/self_attentive_sentence_embedding.html">A Structured Self-attentive Sentence Embedding</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentence_embedding/bert.html">Fine-tuning Sentence Pair Classification with BERT</a></span></li>
+<li class="toctree-l2 current"><span class="link-wrapper"><a class="current reference internal mdl-color-text--primary" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#">Sentiment Analysis by Fine-tuning Word Language Model</a></span></li>
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sequence_sampling/sequence_sampling.html">Sequence Generation with Sampling and Beam Search</a></span></li>
+</ul></li>
+<li class="toctree-l1">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/index.html">API Documentation</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-59" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-59" class="collapse" style="display: none;">
+<li class="toctree-l2">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/notes/index.html">Notes</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-60" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-60" class="collapse" style="display: none;">
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/notes/data_api.html">Data Loading API</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/notes/vocab_emb.html">Vocabulary and Embedding API</a></span></li>
+</ul></li>
+<li class="toctree-l2">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/index.html">Package Reference</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-63" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-63" class="collapse" style="display: none;">
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/vocab.html">gluonnlp.vocab</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/embedding.html">gluonnlp.embedding</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/data.html">gluonnlp.data</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/data.batchify.html">gluonnlp.data.batchify</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/model.html">gluonnlp.model</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/model.train.html">gluonnlp.model.train</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/loss.html">gluonnlp.loss</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/initializer.html">gluonnlp.initializer</a></span></li>
+<li class="toctree-l3"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/api/modules/optimizer.html">gluonnlp.optimizer</a></span></li>
+</ul></li>
+</ul></li>
+<li class="toctree-l1">
+<span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/community/index.html">Community</a><span class="nav-toggle"><a class="mdl-button mdl-js-button mdl-button--icon" data-toggle="#globalnav-73" data-upgraded=",MaterialButton"><span style="color: #888"><i class="material-icons">keyboard_arrow_down</i></span></a></span></span><ul id="globalnav-73" class="collapse" style="display: none;">
+<li class="toctree-l2"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/community/contribute.html">Contribute</a></span></li>
+</ul></li>
+<li class="toctree-l1"><span class="link-wrapper"><a class="reference internal" href="https://gluon-nlp.mxnet.io/genindex.html">Index</a></span></li>
+</ul>
+
+            </nav>
+        
+        </div>
+    
+</header>
+
+    <div class="document">
+        <div class="page-content">
+        
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 9ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+</style>
+<p></p>
+<div class="section" id="Sentiment-Analysis-by-Fine-tuning-Word-Language-Model">
+<h1 class="mdl-color-text--primary">Sentiment Analysis by Fine-tuning Word Language Model<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Sentiment-Analysis-by-Fine-tuning-Word-Language-Model" title="Permalink to this headline">¶</a><button class="download mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="sentiment_analysis-zip" data-upgraded=",MaterialButton,MaterialRipple" tabindex="0">Download this tutorial<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button><div class="mdl-tooltip" data-mdl-for="sentiment_analysis-zip" data-upgraded=",MaterialTooltip">Download this tutorial</div></h1>
+<p>Now that we’ve covered some advanced topics using advanced models, let’s
+return to the basics and show how these techniques can help us even when
+addressing the comparatively simple problem of classification. In
+particular, we’ll look at the classic problem of sentiment analysis:
+taking an input consisting of a string of text and classifying its
+sentiment as positive or negative.</p>
+<p>In this notebook, we are going to use GluonNLP to build a sentiment
+analysis model whose weights are initialized based on a pre-trained
+language model. Using pre-trained language model weights is a common
+approach for semi-supervised learning in NLP. In order to do a good job
+with large language modeling on a large corpus of text, our model must
+learn representations that contain information about the structure of
+natural language. Intuitively, by starting with these good features,
+versus simply random features, we’re able to converge faster towards a
+superior model for our downstream task.</p>
+<p>With GluonNLP, we can quickly prototype the model and it’s easy to
+customize. The building process consists of just three simple steps. For
+this demonstration we’ll focus on movie reviews from the Large Movie
+Review Dataset, also known as the IMDB dataset. Given a movie, our model
+will output prediction of its sentiment, which can be positive or
+negative.</p>
+<div class="section" id="Setup">
+<h2 class="mdl-color-text--primary">Setup<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Setup" title="Permalink to this headline">¶</a></h2>
+<p>Firstly, we must load the required modules. Please remember to download
+the archive from the top of this tutorial if you’d like to follow along.
+We set the random seed so the outcome can be relatively consistent.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">'ignore'</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="kn">as</span> <span class="nn">mp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">mxnet</span> <span class="kn">as</span> <span class="nn">mx</span>
+<span class="kn">from</span> <span class="nn">mxnet</span> <span class="kn">import</span> <span class="n">nd</span><span class="p">,</span> <span class="n">gluon</span><span class="p">,</span> <span class="n">autograd</span>
+
+<span class="kn">import</span> <span class="nn">gluonnlp</span> <span class="kn">as</span> <span class="nn">nlp</span>
+
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">mx</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Sentiment-analysis-model-with-pre-trained-language-model-encoder">
+<h2 class="mdl-color-text--primary">Sentiment analysis model with pre-trained language model encoder<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Sentiment-analysis-model-with-pre-trained-language-model-encoder" title="Permalink to this headline">¶</a></h2>
+<p>So that we can easily transplant the pre-trained weights, we’ll base our
+model architecture on the pre-trained language model (LM). Following the
+LSTM layer, we have one representation vector for each word in the
+sentence. Because we plan to make a single prediction (as opposed to one
+per word), we’ll first pool our predictions across time steps before
+feeding them through a dense last layer to produce our final prediction
+(a single sigmoid output node).</p>
+<div class="figure align-default" id="id1">
+<img alt="sa-model" src="./Sentiment Analysis by Fine-tuning Word Language Model — gluonnlp 0.8.1 documentation_files/samodel-v3.png">
+<p class="caption"><span class="caption-text">sa-model</span><a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>Specifically, our model represents input words by their embeddings.
+Following the embedding layer, our model consists of a two-layer LSTM,
+followed by an average pooling layer, followed by a sigmoid output layer
+(all illustrated in the figure above).</p>
+<p>Thus, given an input sequence, the memory cells in the LSTM layer will
+produce a representation sequence. This representation sequence is then
+averaged over all time steps resulting in a fixed-length sentence
+representation <span class="math notranslate nohighlight"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" style="width: 0.669em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.515em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.744em, 1000.46em, 2.718em, -999.997em); top: -2.559em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span class="mi" id="MathJax-Span-3" style="font-family: STIXGeneral-Italic;">ℎ</span></span><span style="display: inline-block; width: 0px; height: 2.564em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.059em; border-left: 0px solid; width: 0px; height: 0.941em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>h</mi></math></span></span><script type="math/tex" id="MathJax-Element-1">h</script></span>. Finally, we apply a sigmoid output layer on
+top of <span class="math notranslate nohighlight"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-2-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-4" style="width: 0.669em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.515em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.744em, 1000.46em, 2.718em, -999.997em); top: -2.559em; left: 0em;"><span class="mrow" id="MathJax-Span-5"><span class="mi" id="MathJax-Span-6" style="font-family: STIXGeneral-Italic;">ℎ</span></span><span style="display: inline-block; width: 0px; height: 2.564em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.059em; border-left: 0px solid; width: 0px; height: 0.941em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>h</mi></math></span></span><script type="math/tex" id="MathJax-Element-2">h</script></span>. We’re using the sigmoid activation function because
+we’re trying to predict if this text has positive or negative sentiment.
+A sigmoid activation function squashes the output values to the range
+[0,1], allowing us to interpret this output as a probability, making our
+lives relatively simpler.</p>
+<p>Below we define our <code class="docutils literal notranslate"><span class="pre">MeanPoolingLayer</span></code> and basic sentiment analysis
+network’s (<code class="docutils literal notranslate"><span class="pre">SentimentNet</span></code>) structure.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MeanPoolingLayer</span><span class="p">(</span><span class="n">gluon</span><span class="o">.</span><span class="n">HybridBlock</span><span class="p">):</span>
+    <span class="sd">"""A block for mean pooling of encoder features"""</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MeanPoolingLayer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">hybrid_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">valid_length</span><span class="p">):</span> <span class="c1"># pylint: disable=arguments-differ</span>
+        <span class="sd">"""Forward logic"""</span>
+        <span class="c1"># Data will have shape (T, N, C)</span>
+        <span class="n">masked_encoded</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">SequenceMask</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                                        <span class="n">sequence_length</span><span class="o">=</span><span class="n">valid_length</span><span class="p">,</span>
+                                        <span class="n">use_sequence_length</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">agg_state</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">broadcast_div</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">masked_encoded</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                                    <span class="n">F</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">valid_length</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">agg_state</span>
+
+
+<span class="k">class</span> <span class="nc">SentimentNet</span><span class="p">(</span><span class="n">gluon</span><span class="o">.</span><span class="n">HybridBlock</span><span class="p">):</span>
+    <span class="sd">"""Network for sentiment analysis."""</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SentimentNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_scope</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1"># will set with lm embedding later</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1"># will set with lm encoder later</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">agg_layer</span> <span class="o">=</span> <span class="n">MeanPoolingLayer</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">gluon</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">HybridSequential</span><span class="p">()</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">name_scope</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gluon</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gluon</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">flatten</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">hybrid_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">valid_length</span><span class="p">):</span> <span class="c1"># pylint: disable=arguments-differ</span>
+        <span class="n">encoded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>  <span class="c1"># Shape(T, N, C)</span>
+        <span class="n">agg_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agg_layer</span><span class="p">(</span><span class="n">encoded</span><span class="p">,</span> <span class="n">valid_length</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">agg_state</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Defining-the-hyperparameters-and-initializing-the-model">
+<h2 class="mdl-color-text--primary">Defining the hyperparameters and initializing the model<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Defining-the-hyperparameters-and-initializing-the-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Hyperparameters">
+<h3 class="mdl-color-text--primary">Hyperparameters<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Hyperparameters" title="Permalink to this headline">¶</a></h3>
+<p>Our model is based on a standard LSTM model. We use a hidden layer size
+of 200. We use bucketing for speeding up the processing of
+variable-length sequences. We don’t configure dropout for this model as
+it could be deleterious to the results.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dropout</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">language_model_name</span> <span class="o">=</span> <span class="s1">'standard_lstm_lm_200'</span>
+<span class="n">pretrained</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">learning_rate</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mi">32</span>
+<span class="n">bucket_num</span><span class="p">,</span> <span class="n">bucket_ratio</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.2</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">grad_clip</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">log_interval</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<p>If your environment supports GPUs, keep the context value the same. If
+it doesn’t, swap the <code class="docutils literal notranslate"><span class="pre">mx.gpu(0)</span></code> to <code class="docutils literal notranslate"><span class="pre">mx.cpu()</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">gpu</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Loading-the-pre-trained-model">
+<h3 class="mdl-color-text--primary">Loading the pre-trained model<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Loading-the-pre-trained-model" title="Permalink to this headline">¶</a></h3>
+<p>The loading of the pre-trained model, like in previous tutorials, is as
+simple as one line.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lm_model</span><span class="p">,</span> <span class="n">vocab</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">language_model_name</span><span class="p">,</span>
+                                      <span class="n">dataset_name</span><span class="o">=</span><span class="s1">'wikitext-2'</span><span class="p">,</span>
+                                      <span class="n">pretrained</span><span class="o">=</span><span class="n">pretrained</span><span class="p">,</span>
+                                      <span class="n">ctx</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+                                      <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>Vocab file is not found. Downloading.
+Downloading /root/.mxnet/models/1568847689.0349598wikitext-2-be36dc52.zip from https://apache-mxnet.s3-accelerate.dualstack.amazonaws.com/gluon/dataset/vocab/wikitext-2-be36dc52.zip...
+Downloading /root/.mxnet/models/standard_lstm_lm_200_wikitext-2-b233c700.zip from https://apache-mxnet.s3-accelerate.dualstack.amazonaws.com/gluon/models/standard_lstm_lm_200_wikitext-2-b233c700.zip...
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Creating-the-sentiment-analysis-model-from-the-loaded-pre-trained-model">
+<h3 class="mdl-color-text--primary">Creating the sentiment analysis model from the loaded pre-trained model<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Creating-the-sentiment-analysis-model-from-the-loaded-pre-trained-model" title="Permalink to this headline">¶</a></h3>
+<p>In the code below, we already have acquireq a pre-trained model on the
+Wikitext-2 dataset using <code class="docutils literal notranslate"><span class="pre">nlp.model.get_model</span></code>. We then construct a
+SentimentNet object, which takes as input the embedding layer and
+encoder of the pre-trained model.</p>
+<p>As we employ the pre-trained embedding layer and encoder, <em>we only need
+to initialize the output layer</em> using
+<code class="docutils literal notranslate"><span class="pre">net.out_layer.initialize(mx.init.Xavier(),</span> <span class="pre">ctx=context)</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">SentimentNet</span><span class="p">(</span><span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>
+<span class="n">net</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">lm_model</span><span class="o">.</span><span class="n">embedding</span>
+<span class="n">net</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">lm_model</span><span class="o">.</span><span class="n">encoder</span>
+<span class="n">net</span><span class="o">.</span><span class="n">hybridize</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">mx</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">Xavier</span><span class="p">(),</span> <span class="n">ctx</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>SentimentNet(
+  (embedding): HybridSequential(
+    (0): Embedding(33278 -&gt; 200, float32)
+  )
+  (encoder): LSTM(200 -&gt; 200, TNC, num_layers=2)
+  (agg_layer): MeanPoolingLayer(
+
+  )
+  (output): HybridSequential(
+    (0): Dropout(p = 0, axes=())
+    (1): Dense(None -&gt; 1, linear)
+  )
+)
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="The-data-pipeline">
+<h2 class="mdl-color-text--primary">The data pipeline<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#The-data-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we describe in detail the data pipeline, from
+initialization to modifying it for use in our model.</p>
+<div class="section" id="Loading-the-sentiment-analysis-dataset-(IMDB-reviews)">
+<h3 class="mdl-color-text--primary">Loading the sentiment analysis dataset (IMDB reviews)<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Loading-the-sentiment-analysis-dataset-(IMDB-reviews)" title="Permalink to this headline">¶</a></h3>
+<p>In the labeled train/test sets, out of a max score of 10, a negative
+review has a score of no more than 4, and a positive review has a score
+of no less than 7. Thus reviews with more neutral ratings are not
+included in the train/test sets. We labeled a negative review whose
+score &lt;= 4 as 0, and a positive review whose score &gt;= 7 as 1. As the
+neural ratings are not included in the datasets, we can use 5 as our
+threshold.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The tokenizer takes as input a string and outputs a list of tokens.</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">SpacyTokenizer</span><span class="p">(</span><span class="s1">'en'</span><span class="p">)</span>
+
+<span class="c1"># `length_clip` takes as input a list and outputs a list with maximum length 500.</span>
+<span class="n">length_clip</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ClipSequence</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># Helper function to preprocess a single data point</span>
+<span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">label</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="c1"># A token index or a list of token indices is</span>
+    <span class="c1"># returned according to the vocabulary.</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">vocab</span><span class="p">[</span><span class="n">length_clip</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">data</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">label</span>
+
+<span class="c1"># Helper function for getting the length</span>
+<span class="k">def</span> <span class="nf">get_length</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="c1"># Loading the dataset</span>
+<span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span> <span class="o">=</span> <span class="p">[</span><span class="n">nlp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">IMDB</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">'data/imdb'</span><span class="p">,</span> <span class="n">segment</span><span class="o">=</span><span class="n">segment</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">segment</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'train'</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">)]</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">'Tokenize using spaCy...'</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>Downloading data/imdb/train.json from https://apache-mxnet.s3-accelerate.dualstack.amazonaws.com/gluon/dataset/imdb/train.json...
+Downloading data/imdb/test.json from https://apache-mxnet.s3-accelerate.dualstack.amazonaws.com/gluon/dataset/imdb/test.json...
+Tokenize using spaCy...
+</pre></div></div>
+</div>
+<p>Here we use the helper functions defined above to make pre-processing
+the dataset relatively stress-free and concise. As in a previous
+tutorial, <code class="docutils literal notranslate"><span class="pre">mp.Pool()</span></code> is leveraged to divide the work of preprocessing
+to multiple cores/machines.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="c1"># Each sample is processed in an asynchronous manner.</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">gluon</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">SimpleDataset</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">,</span> <span class="n">dataset</span><span class="p">))</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="n">gluon</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">SimpleDataset</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">get_length</span><span class="p">,</span> <span class="n">dataset</span><span class="p">))</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">'Done! Tokenizing Time={:.2f}s, #Sentences={}'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">lengths</span>
+
+<span class="c1"># Doing the actual pre-processing of the dataset</span>
+<span class="n">train_dataset</span><span class="p">,</span> <span class="n">train_data_lengths</span> <span class="o">=</span> <span class="n">preprocess_dataset</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">)</span>
+<span class="n">test_dataset</span><span class="p">,</span> <span class="n">test_data_lengths</span> <span class="o">=</span> <span class="n">preprocess_dataset</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>Done! Tokenizing Time=11.64s, #Sentences=25000
+Done! Tokenizing Time=11.36s, #Sentences=25000
+</pre></div></div>
+</div>
+<p>In the following code, we use FixedBucketSampler, which assigns each
+data sample to a fixed bucket based on its length. The bucket keys are
+either given or generated from the input sequence lengths and the number
+of buckets.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construct the DataLoader</span>
+
+<span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">():</span>
+
+    <span class="c1"># Pad data, stack label and lengths</span>
+    <span class="n">batchify_fn</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">batchify</span><span class="o">.</span><span class="n">Tuple</span><span class="p">(</span>
+        <span class="n">nlp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">batchify</span><span class="o">.</span><span class="n">Pad</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ret_length</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="n">nlp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">batchify</span><span class="o">.</span><span class="n">Stack</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">'float32'</span><span class="p">))</span>
+    <span class="n">batch_sampler</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">FixedBucketSampler</span><span class="p">(</span>
+        <span class="n">train_data_lengths</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">num_buckets</span><span class="o">=</span><span class="n">bucket_num</span><span class="p">,</span>
+        <span class="n">ratio</span><span class="o">=</span><span class="n">bucket_ratio</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">batch_sampler</span><span class="o">.</span><span class="n">stats</span><span class="p">())</span>
+
+    <span class="c1"># Construct a DataLoader object for both the training and test data</span>
+    <span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">gluon</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
+        <span class="n">batch_sampler</span><span class="o">=</span><span class="n">batch_sampler</span><span class="p">,</span>
+        <span class="n">batchify_fn</span><span class="o">=</span><span class="n">batchify_fn</span><span class="p">)</span>
+    <span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">gluon</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="o">=</span><span class="n">test_dataset</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">batchify_fn</span><span class="o">=</span><span class="n">batchify_fn</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">train_dataloader</span><span class="p">,</span> <span class="n">test_dataloader</span>
+
+<span class="c1"># Use the pre-defined function to make the retrieval of the DataLoader objects simple</span>
+<span class="n">train_dataloader</span><span class="p">,</span> <span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">get_dataloader</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>FixedBucketSampler:
+  sample_num=25000, batch_num=779
+  key=[59, 108, 157, 206, 255, 304, 353, 402, 451, 500]
+  cnt=[591, 1999, 5092, 5108, 3035, 2084, 1476, 1164, 871, 3580]
+  batch_size=[54, 32, 32, 32, 32, 32, 32, 32, 32, 32]
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Training-the-model">
+<h2 class="mdl-color-text--primary">Training the model<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Training-the-model" title="Permalink to this headline">¶</a></h2>
+<p>Now that all the data has been pre-processed and the model architecture
+has been loosely defined, we can define the helper functions for
+evaluation and training of the model.</p>
+<div class="section" id="Evaluation-using-loss-and-accuracy">
+<h3 class="mdl-color-text--primary">Evaluation using loss and accuracy<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Evaluation-using-loss-and-accuracy" title="Permalink to this headline">¶</a></h3>
+<p>Here, we define a function <code class="docutils literal notranslate"><span class="pre">evaluate(net,</span> <span class="pre">dataloader,</span> <span class="pre">context)</span></code> to
+determine the loss and accuracy of our model in a concise way. The code
+is very similar to evaluation of other models in the previous tutorials.
+For more information and explanation of this code, please refer to the
+previous tutorial on <a class="reference external" href="https://gluon-nlp.mxnet.io/master/examples/language_model/language_model.html">LSTM-based Language
+Models</a>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">gluon</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">SigmoidBCELoss</span><span class="p">()</span>
+    <span class="n">total_L</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">total_sample_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_correct_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">start_log_interval_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s1">'Begin Testing...'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">valid_length</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">nd</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">as_in_context</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+        <span class="n">valid_length</span> <span class="o">=</span> <span class="n">valid_length</span><span class="o">.</span><span class="n">as_in_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">as_in_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">valid_length</span><span class="p">)</span>
+
+        <span class="n">L</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="p">(</span><span class="n">output</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">total_L</span> <span class="o">+=</span> <span class="n">L</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">asscalar</span><span class="p">()</span>
+        <span class="n">total_sample_num</span> <span class="o">+=</span> <span class="n">label</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">total_correct_num</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">asscalar</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">log_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">'[Batch {}/{}] elapsed {:.2f} s'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">),</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_log_interval_time</span><span class="p">))</span>
+            <span class="n">start_log_interval_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="n">avg_L</span> <span class="o">=</span> <span class="n">total_L</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_sample_num</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">total_correct_num</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_sample_num</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">avg_L</span><span class="p">,</span> <span class="n">acc</span>
+</pre></div>
+</div>
+</div>
+<p>In the following code, we use FixedBucketSampler, which assigns each
+data sample to a fixed bucket based on its length. The bucket keys are
+either given or generated from the input sequence lengths and number of
+the buckets.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">epochs</span><span class="p">):</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">gluon</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">collect_params</span><span class="p">(),</span> <span class="s1">'ftml'</span><span class="p">,</span>
+                            <span class="p">{</span><span class="s1">'learning_rate'</span><span class="p">:</span> <span class="n">learning_rate</span><span class="p">})</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">gluon</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">SigmoidBCELoss</span><span class="p">()</span>
+
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">collect_params</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+
+    <span class="c1"># Training/Testing</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="c1"># Epoch training stats</span>
+        <span class="n">start_epoch_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">epoch_L</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">epoch_sent_num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">epoch_wc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Log interval training stats</span>
+        <span class="n">start_log_interval_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">log_interval_wc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">log_interval_sent_num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">log_interval_L</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">length</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">):</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">wc</span> <span class="o">=</span> <span class="n">length</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">asscalar</span><span class="p">()</span>
+            <span class="n">log_interval_wc</span> <span class="o">+=</span> <span class="n">wc</span>
+            <span class="n">epoch_wc</span> <span class="o">+=</span> <span class="n">wc</span>
+            <span class="n">log_interval_sent_num</span> <span class="o">+=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">epoch_sent_num</span> <span class="o">+=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">with</span> <span class="n">autograd</span><span class="o">.</span><span class="n">record</span><span class="p">():</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">as_in_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                             <span class="n">length</span><span class="o">.</span><span class="n">as_in_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+                                   <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+                <span class="n">L</span> <span class="o">=</span> <span class="n">L</span> <span class="o">+</span> <span class="n">loss</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">label</span><span class="o">.</span><span class="n">as_in_context</span><span class="p">(</span><span class="n">context</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="n">L</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="c1"># Clip gradient</span>
+            <span class="k">if</span> <span class="n">grad_clip</span><span class="p">:</span>
+                <span class="n">gluon</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">clip_global_norm</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">],</span>
+                    <span class="n">grad_clip</span><span class="p">)</span>
+            <span class="c1"># Update parameter</span>
+            <span class="n">trainer</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">log_interval_L</span> <span class="o">+=</span> <span class="n">L</span><span class="o">.</span><span class="n">asscalar</span><span class="p">()</span>
+            <span class="n">epoch_L</span> <span class="o">+=</span> <span class="n">L</span><span class="o">.</span><span class="n">asscalar</span><span class="p">()</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">log_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span>
+                    <span class="s1">'[Epoch {} Batch {}/{}] elapsed {:.2f} s, '</span>
+                    <span class="s1">'avg loss {:.6f}, throughput {:.2f}K wps'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">epoch</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">),</span>
+                        <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_log_interval_time</span><span class="p">,</span>
+                        <span class="n">log_interval_L</span> <span class="o">/</span> <span class="n">log_interval_sent_num</span><span class="p">,</span> <span class="n">log_interval_wc</span>
+                        <span class="o">/</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_log_interval_time</span><span class="p">)))</span>
+                <span class="c1"># Clear log interval training stats</span>
+                <span class="n">start_log_interval_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                <span class="n">log_interval_wc</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">log_interval_sent_num</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">log_interval_L</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end_epoch_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">test_avg_L</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">test_dataloader</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">'[Epoch {}] train avg loss {:.6f}, test acc {:.2f}, '</span>
+              <span class="s1">'test avg loss {:.6f}, throughput {:.2f}K wps'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                  <span class="n">epoch</span><span class="p">,</span> <span class="n">epoch_L</span> <span class="o">/</span> <span class="n">epoch_sent_num</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">,</span> <span class="n">test_avg_L</span><span class="p">,</span>
+                  <span class="n">epoch_wc</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="n">end_epoch_time</span> <span class="o">-</span> <span class="n">start_epoch_time</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<p>And finally, because of all the helper functions we’ve defined, training
+our model becomes simply one line of code!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">epochs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>[Epoch 0 Batch 100/779] elapsed 3.20 s, avg loss 0.002342, throughput 251.49K wps
+[Epoch 0 Batch 200/779] elapsed 3.15 s, avg loss 0.001811, throughput 247.30K wps
+[Epoch 0 Batch 300/779] elapsed 3.26 s, avg loss 0.001439, throughput 261.82K wps
+[Epoch 0 Batch 400/779] elapsed 2.99 s, avg loss 0.001336, throughput 266.17K wps
+[Epoch 0 Batch 500/779] elapsed 2.87 s, avg loss 0.001380, throughput 257.20K wps
+[Epoch 0 Batch 600/779] elapsed 3.04 s, avg loss 0.001165, throughput 256.29K wps
+[Epoch 0 Batch 700/779] elapsed 2.89 s, avg loss 0.001237, throughput 266.18K wps
+Begin Testing...
+[Batch 100/782] elapsed 2.37 s
+[Batch 200/782] elapsed 2.36 s
+[Batch 300/782] elapsed 2.36 s
+[Batch 400/782] elapsed 2.36 s
+[Batch 500/782] elapsed 2.36 s
+[Batch 600/782] elapsed 2.35 s
+[Batch 700/782] elapsed 2.36 s
+[Epoch 0] train avg loss 0.001493, test acc 0.86, test avg loss 0.309020, throughput 258.82K wps
+</pre></div></div>
+</div>
+<p>And testing it becomes as simple as feeding in the sample sentence like
+below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="p">(</span>
+    <span class="n">mx</span><span class="o">.</span><span class="n">nd</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+        <span class="n">mx</span><span class="o">.</span><span class="n">nd</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vocab</span><span class="p">[[</span><span class="s1">'This'</span><span class="p">,</span> <span class="s1">'movie'</span><span class="p">,</span> <span class="s1">'is'</span><span class="p">,</span> <span class="s1">'amazing'</span><span class="p">]],</span> <span class="n">ctx</span><span class="o">=</span><span class="n">context</span><span class="p">),</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">mx</span><span class="o">.</span><span class="n">nd</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">],</span> <span class="n">ctx</span><span class="o">=</span><span class="n">context</span><span class="p">))</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>Out[13]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[[0.82851917]]
+&lt;NDArray 1x1 @gpu(0)&gt;
+</pre></div>
+</div>
+</div>
+<p>Indeed, we can feed in any sentence and determine the sentiment with
+relative ease!</p>
+</div>
+</div>
+<div class="section" id="Conclusion">
+<h2 class="mdl-color-text--primary">Conclusion<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Conclusion" title="Permalink to this headline">¶</a></h2>
+<p>We built a Sentiment Analysis by reusing the feature extractor from the
+pre-trained language model. The modular design of Gluon blocks makes it
+very easy to put together models for various needs. GluonNLP provides
+powerful building blocks that substantially simplify the process of
+constructing an efficient data pipeline and versatile models.</p>
+<div class="section" id="More-information">
+<h3 class="mdl-color-text--primary">More information<a class="headerlink" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#More-information" title="Permalink to this headline">¶</a></h3>
+<p>GluonNLP documentation is here along with more tutorials to provide you
+with the easiest experience in getting to know and use our tool:
+<a class="reference external" href="http://gluon-nlp.mxnet.io/index.html">http://gluon-nlp.mxnet.io/index.html</a></p>
+</div>
+</div>
+</div>
+
+
+        </div>
+        <div class="side-doc-outline">
+            <div class="side-doc-outline--content" style="height: 761px;"> 
+<div class="localtoc">
+    <p class="caption">
+      <span class="caption-text">Table Of Contents</span>
+    </p>
+    <ul>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#">Sentiment Analysis by Fine-tuning Word Language Model</a><ul>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Setup">Setup</a></li>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Sentiment-analysis-model-with-pre-trained-language-model-encoder">Sentiment analysis model with pre-trained language model encoder</a></li>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Defining-the-hyperparameters-and-initializing-the-model">Defining the hyperparameters and initializing the model</a><ul>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Hyperparameters">Hyperparameters</a></li>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Loading-the-pre-trained-model">Loading the pre-trained model</a></li>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Creating-the-sentiment-analysis-model-from-the-loaded-pre-trained-model">Creating the sentiment analysis model from the loaded pre-trained model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#The-data-pipeline">The data pipeline</a><ul>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Loading-the-sentiment-analysis-dataset-(IMDB-reviews)">Loading the sentiment analysis dataset (IMDB reviews)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Training-the-model">Training the model</a><ul>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Evaluation-using-loss-and-accuracy">Evaluation using loss and accuracy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#Conclusion">Conclusion</a><ul>
+<li><a class="reference internal" href="https://gluon-nlp.mxnet.io/examples/sentiment_analysis/sentiment_analysis.html#More-information">More information</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+            </div>
+        </div>
+
+      <div class="clearer"></div>
+    </div><div class="pagenation">
+     <a id="button-prev" href="https://gluon-nlp.mxnet.io/examples/sentence_embedding/bert.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="P" data-upgraded=",MaterialButton,MaterialRipple">
+         <i class="pagenation-arrow-L fas fa-arrow-left fa-lg"></i>
+         <div class="pagenation-text">
+            <span class="pagenation-direction">Previous</span>
+            <div>Fine-tuning Sentence Pair Classification with BERT</div>
+         </div>
+     <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+     <a id="button-next" href="https://gluon-nlp.mxnet.io/examples/sequence_sampling/sequence_sampling.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="N" data-upgraded=",MaterialButton,MaterialRipple">
+         <i class="pagenation-arrow-R fas fa-arrow-right fa-lg"></i>
+        <div class="pagenation-text">
+            <span class="pagenation-direction">Next</span>
+            <div>Sequence Generation with Sampling and Beam Search</div>
+        </div>
+     <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+  </div>
+        
+        </main>
+    <div class="mdl-layout__obfuscator"></div></div></div>
+  
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; min-width: 0px; max-width: none; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: STIXSizeOneSym, sans-serif;"></div></div></body></html>
